@@ -1,0 +1,72 @@
+
+name: Deploy Alau Term Demo
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare website
+        run: |
+          mkdir -p _site
+          cp -a prototype/snapshot/. _site/
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path("_site")
+          pattern = re.compile(
+              r'(?<![A-Za-z0-9.:/])/(ru|kk|static|files)/'
+          )
+
+          for file in root.rglob("*"):
+              if file.suffix.lower() not in {".html", ".css", ".js"}:
+                  continue
+              content = file.read_text(encoding="utf-8")
+              content = pattern.sub(
+                  lambda m: "/DIPLOMA/" + m.group(1) + "/",
+                  content
+              )
+              file.write_text(content, encoding="utf-8")
+
+          (root / "index.html").write_text(
+              '<meta http-equiv="refresh" '
+              'content="0;url=/DIPLOMA/ru/">'
+              '<a href="/DIPLOMA/ru/">Open Alau Term</a>',
+              encoding="utf-8"
+          )
+          (root / ".nojekyll").touch()
+          PY
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
