@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /files/
+Disallow: /ru/workspace/
+Disallow: /kk/workspace/
+Disallow: /ru/account/
+Disallow: /kk/account/
+Disallow: /ru/cart/
+Disallow: /kk/cart/
+Disallow: /ru/checkout/
+Disallow: /kk/checkout/
+Sitemap: http://87.255.201.20:8000/sitemap.xml
