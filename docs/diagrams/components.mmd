@@ -1,0 +1,6 @@
+flowchart LR
+  Browser[Браузер RU/KK] --> Web[Django: маршруты и шаблоны]
+  Web --> Domain[Каталог, услуги, заявки, роли]
+  Domain --> DB[(PostgreSQL)]
+  Domain --> Files[Хранилище изображений]
+  Domain --> Mail[Почтовый сервис]
