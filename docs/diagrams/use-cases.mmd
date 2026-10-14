@@ -1,0 +1,8 @@
+flowchart LR
+  Visitor[Посетитель] --> Search([Искать товар])
+  Visitor --> Product([Смотреть карточку])
+  Visitor --> Inquiry([Отправить заявку])
+  Visitor --> Service([Запросить сервис])
+  Visitor --> Locale([Выбрать язык])
+  Manager[Менеджер] --> Status([Изменить статус заявки])
+  Admin[Администратор] --> Content([Управлять каталогом и переводами])
