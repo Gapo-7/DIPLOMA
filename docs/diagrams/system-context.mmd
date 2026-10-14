@@ -1,5 +1,6 @@
 flowchart LR
-  Visitor[Посетитель] -->|Поиск и заявка| System[Alau Term веб-система]
-  Manager[Менеджер Alau Term] -->|Обработка обращений| System
-  Admin[Администратор] -->|Каталог и RU/KK контент| System
-  System -->|Уведомление| Mail[Почтовый сервис]
+  Customer[Customer] -->|Products, sales and repair requests| System[Alau Term website and CRM]
+  Manager[Manager] -->|Sales cases and field visits| System
+  Admin[Administrator] -->|Access, catalog and reports| System
+  Technician[Field technician] -->|Repair visit status| System
+  System -->|Notification| Mail[Email service]
